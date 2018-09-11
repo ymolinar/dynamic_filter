@@ -1,0 +1,41 @@
+.o_dynamic_filter_item {
+    display: none;
+}
+
+.o_dynamic_closed_menu a:before {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid;
+    border-right: 0;
+    border-top: 4px solid transparent;
+    -moz-transform: scale(0.9999);
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    bottom: auto;
+    right: auto;
+    margin-top: -4px;
+}
+
+.o_dynamic_open_menu a:before {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-bottom: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid;
+    -moz-transform: scale(0.9999);
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    bottom: auto;
+    right: auto;
+    margin-top: -4px;
+}

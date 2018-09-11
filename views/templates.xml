@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="dynamic_search_assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/dynamic_filter/static/src/css/dynamic_filter.css"/>
+            <script type="text/javascript" src="/dynamic_filter/static/src/js/domain_parser.js"/>
+            <script type="text/javascript" src="/dynamic_filter/static/src/js/dynamic_filter.js"/>
+        </xpath>
+    </template>
+</odoo>

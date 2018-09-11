@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="DynamicSearchView.filters">
+    <li class="o_dynamic_filter_parent o_dynamic_closed_menu" t-att-data-class="widget.element_class">
+        <a href="#" class="o_dynamic_filter_parent_action"><t t-esc="widget.name or 'Ω'"/></a>
+    </li>
+    <li t-foreach="widget.filters" t-as="filter" t-if="!filter.visible || filter.visible()"
+            t-att-title="filter.attrs.string ? filter.attrs.help : undefined"
+            t-att-data-index="filter_index" t-attf-class="o_dynamic_filter_item {{ filter.attrs.element_class }}">
+        <a href="#"><t t-esc="filter.attrs.string or filter.attrs.help or filter.attrs.name or 'Ω'"/></a>
+    </li>
+</t>
+</templates>
