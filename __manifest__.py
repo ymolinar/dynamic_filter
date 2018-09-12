@@ -8,7 +8,7 @@
     'category': 'Extra Tools',
     'summary': 'Add dynamic filters to search views',
     'data': ['views/templates.xml'],
-    'website': 'https://github.com/ymolinar',
+    'website': 'https://github.com/ymolinar/dynamic_filter',
     'qweb': ['static/src/xml/dynamic_filter.xml'],
     'installable': True,
     'application': False,
