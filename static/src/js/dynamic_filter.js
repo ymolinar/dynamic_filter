@@ -3,6 +3,7 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
     let SearchView = require('web.SearchView'),
         py_eval = require('web.pyeval'),
         core = require('web.core'),
+        _t = core._t,
         search_inputs = require('web.search_inputs'),
         utils = require('dynamic_filter.Utils'),
         DomainParser = require('dynamic_filter.DomainParser');
@@ -106,18 +107,14 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
                 // If current filter is dynamic we get his configuration and make requests to server to get data
                 // to populate child filters
                 if ('filter' === filter.item.tag && self.isDynamicFilter(filter)) {
-                    //todo: check if with the first parse method parse again is necessary
-                    let attributes = self.parseDynamicFilterAttributes('context', filter.item.attrs.attrs),
-                        model = attributes.model || self.dataset._model.name || self.fields_view.model,
-                        domain = self.parseDynamicFilterAttributes('domain', filter.item.attrs.domain) || [],
-                        context = self.parseDynamicFilterAttributes('context', filter.item.attrs.context) || {};
+                    let model = filter.item.attrs.attrs.model || self.dataset._model.name || self.fields_view.model;
                     //we push the request for further execution
                     requests.push(
                         self._rpc({
                             model: model,
                             method: 'search_read',
-                            domain: domain,
-                            context: context
+                            domain: filter.item.attrs.domain,
+                            context: filter.item.attrs.context
                         })
                     );
                     self.dynamicFilters.push(filter);
@@ -157,6 +154,8 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
                     });
                 }
                 def.resolve();
+            }).fail(function (error) {
+                self.do_warn(_t("Error"), error.message, true);
             });
             return def.promise();
         },
