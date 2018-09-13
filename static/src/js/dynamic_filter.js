@@ -135,7 +135,7 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
                         let name = 'o_dynamic_filter_' + utils.slug(filter.item.attrs.name || filter.item.attrs.string || 'Parent Name ' + key, '_'),
                             item = {
                                 attrs: {
-                                    string: element.name || element.display_name,
+                                    string: self.getChildFilterString(filter.item.attrs.attrs, element),
                                     name: name + '_' + element.id,
                                     modifiers: {},
                                     domain: self.domainParser.parse(filter.item.attrs.attrs.format_domain, element),
@@ -158,6 +158,12 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
                 self.do_warn(_t("Error"), error.message, true);
             });
             return def.promise();
+        },
+        getChildFilterString: function (attributes, element) {
+            if (attributes.name_field && attributes.name_field in element) {
+                return element[attributes.name_field];
+            }
+            return element.name || element.display_name;
         },
         /**
          * We get the xml definition of the arch element of the search view and parse all the attributes
