@@ -110,12 +110,7 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
                     let model = filter.item.attrs.attrs.model || self.dataset._model.name || self.fields_view.model;
                     //we push the request for further execution
                     requests.push(
-                        self._rpc({
-                            model: model,
-                            method: 'search_read',
-                            domain: filter.item.attrs.domain,
-                            context: filter.item.attrs.context
-                        })
+                        self._rpc(self.getRpcOptions(model, filter))
                     );
                     self.dynamicFilters.push(filter);
                 } else {
@@ -132,6 +127,7 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
                     // for every record obtained from this dynamic filter configuration we create a new filter
                     // definition
                     _.each(data, function (element) {
+                        console.log(element);
                         let name = 'o_dynamic_filter_' + utils.slug(filter.item.attrs.name || filter.item.attrs.string || 'Parent Name ' + key, '_'),
                             item = {
                                 attrs: {
@@ -159,6 +155,37 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
             });
             return def.promise();
         },
+        getRpcOptions: function (model, filter) {
+            let result = {
+                model: model,
+                method: 'search_read',
+                domain: filter.item.attrs.domain,
+                context: filter.item.attrs.context
+            };
+            if (filter.item.attrs.attrs.limit) {
+                result['limit'] = parseInt(filter.item.attrs.attrs.limit);
+            }
+            if (filter.item.attrs.attrs.offset) {
+                result['offset'] = parseInt(filter.item.attrs.attrs.offset);
+            }
+            if (filter.item.attrs.attrs.fields) {
+                if ('string' === typeof filter.item.attrs.attrs.fields) {
+                    filter.item.attrs.attrs.fields = filter.item.attrs.attrs.fields.split(',');
+                }
+                result['fields'] = filter.item.attrs.attrs.fields;
+            }
+            if (filter.item.attrs.attrs.order_by) {
+                result['orderBy'] = filter.item.attrs.attrs.order_by.trim();
+            }
+            return result;
+        },
+        /**
+         * Generate the child filter display name based on if the user define a field to use as display name or
+         * use the name or display name of the record element
+         * @param attributes Object
+         * @param element Object
+         * @returns {string}
+         */
         getChildFilterString: function (attributes, element) {
             if (attributes.name_field && attributes.name_field in element) {
                 return element[attributes.name_field];
