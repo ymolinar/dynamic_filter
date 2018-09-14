@@ -127,7 +127,6 @@ odoo.define('dynamic_filter.DynamicSearchView', function (require) {
                     // for every record obtained from this dynamic filter configuration we create a new filter
                     // definition
                     _.each(data, function (element) {
-                        console.log(element);
                         let name = 'o_dynamic_filter_' + utils.slug(filter.item.attrs.name || filter.item.attrs.string || 'Parent Name ' + key, '_'),
                             item = {
                                 attrs: {
